@@ -1,6 +1,31 @@
 # Identicon
 
-**TODO: Add description**
+**An command line app that generates an [Identicon](https://en.wikipedia.org/wiki/Identicon) based on the input string.**
+
+# How to use
+
+**IMPORTANT!** It's necessary Elixir 1.6 or above.
+
+* Go to app's folder
+```
+cd /path/to/identicon/folder
+```
+
+* Install dependencies
+```
+mix deps.get
+```
+
+* Starts a mix command line
+```
+iex -S mix
+```
+
+* Run the **main** function of Identicon module with the string as paramenter.
+```
+Identicon.main("string_to_became_identicon")
+```
+It will create a *.png* file inside the app's folder with the same name as the string passed in parameter.
 
 ## Installation
 
