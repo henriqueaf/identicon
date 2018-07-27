@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/henriqueaf/identicon.svg?style=shield)](https://circleci.com/gh/henriqueaf/identicon)
+
 # Identicon
 
 **An command line app that generates an [Identicon](https://en.wikipedia.org/wiki/Identicon) based on the input string.**
