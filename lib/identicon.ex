@@ -3,6 +3,17 @@ defmodule Identicon do
   A module that generates an Identicon image from a string input.
   """
 
+  @doc """
+  It creates a identicon image file with same name of input string.
+
+  ## Examples
+
+      iex> Identicon.main("test")
+      :ok
+      iex> File.rm("test.png")
+      :ok
+
+  """
   def main(input) do
     input
     |> hash_input
@@ -14,7 +25,16 @@ defmodule Identicon do
     |> save_image(input)
   end
 
-  defp hash_input(input) do
+  @doc """
+  It receives an String an return an Image struct with that string converted to bin list.
+
+  ## Examples
+
+      iex> Identicon.hash_input("test")
+      %Identicon.Image{hex: :binary.bin_to_list(:crypto.hash(:md5, "test"))}
+
+  """
+  def hash_input(input) do
     hex = :crypto.hash(:md5, input)
     |> :binary.bin_to_list
 
@@ -25,7 +45,7 @@ defmodule Identicon do
     %Identicon.Image{image_struct | color: {r,g,b}}
   end
 
-  defp build_grid(%Identicon.Image{hex: hex_list} = image_struct) do
+  def build_grid(%Identicon.Image{hex: hex_list} = image_struct) do
     grid =
       hex_list
       |> Enum.chunk(3)
@@ -37,11 +57,11 @@ defmodule Identicon do
     %Identicon.Image{image_struct | grid: grid}
   end
 
-  defp mirror_row([first, second, _middle] = row) do
+  def mirror_row([first, second, _middle] = row) do
     row ++ [second, first]
   end
 
-  defp filter_odd_squares(%Identicon.Image{grid: grid} = image_struct) do
+  def filter_odd_squares(%Identicon.Image{grid: grid} = image_struct) do
     grid = Enum.filter(grid, fn({code, _index}) ->
       rem(code, 2) === 0 #calculates remainder division by 2
     end)
@@ -49,7 +69,7 @@ defmodule Identicon do
     %Identicon.Image{image_struct | grid: grid}
   end
 
-  defp build_pixel_map(%Identicon.Image{grid: grid} = image_struct) do
+  def build_pixel_map(%Identicon.Image{grid: grid} = image_struct) do
     pixel_map = Enum.map(grid, fn({ _code, index }) ->
       horizontal = rem(index, 5) * 50
       vertical = div(index, 5) * 50
@@ -62,7 +82,7 @@ defmodule Identicon do
     %Identicon.Image{image_struct | pixel_map: pixel_map}
   end
 
-  defp draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
+  def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
     image = :egd.create(250, 250)
     fill = :egd.color(color)
 
@@ -73,7 +93,7 @@ defmodule Identicon do
     :egd.render(image)
   end
 
-  defp save_image(image, file_name) do
+  def save_image(image, file_name) do
     File.write("#{file_name}.png", image)
   end
 end
