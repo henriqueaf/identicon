@@ -31,7 +31,7 @@ defmodule IdenticonTest do
       grid =
         image_struct.hex
         |> Enum.chunk(3)
-        |> Enum.map(&Identicon.mirror_row/1) #need to passa a reference of a function in Enum.map
+        |> Enum.map(&Identicon.mirror_row/1)
         |> List.flatten
         |> Enum.with_index
 
